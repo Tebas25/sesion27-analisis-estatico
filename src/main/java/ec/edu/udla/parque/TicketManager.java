@@ -1,30 +1,66 @@
 package ec.edu.udla.parque;
 
-public class TicketManager {
+/**
+ * Clase encargada de gestionar el cálculo de precios de los boletos.
+ */
+public final class TicketManager {
 
-    // PMD detectará esto: Variable no utilizada
-    private int variableInutil = 100;
+    /**
+     * Precio base estándar del boleto.
+     */
+    private static final double PRECIO_BASE = 50.0;
 
-    public double calcularPrecio(int edad, boolean esVIP) {
-        // Checkstyle detectará esto: mal espaciado y nombre de variable poco descriptivo
-        double p=50.0; 
+    /**
+     * Precio especial para niños.
+     */
+    private static final double PRECIO_NINO = 25.0;
 
-        if (edad < 12) {
-            p = 25.0;
-        } else if (edad >= 65) {
-            p = 30.0;
+    /**
+     * Precio especial para adultos mayores.
+     */
+    private static final double PRECIO_ADULTO_MAYOR = 30.0;
+
+    /**
+     * Edad máxima para ser considerado niño.
+     */
+    private static final int EDAD_NINO_MAX = 12;
+
+    /**
+     * Edad mínima para ser considerado adulto mayor.
+     */
+    private static final int EDAD_ADULTO_MAYOR_MIN = 65;
+
+    /**
+     * Multiplicador de descuento para clientes VIP (10% de descuento).
+     */
+    private static final double DESCUENTO_VIP = 0.9;
+
+    /**
+     * Calcula el precio final del boleto basado en la edad y membresía.
+     *
+     * @param edad  La edad del visitante.
+     * @param esVIP Indica si el cliente tiene membresía VIP.
+     * @return El precio final calculado.
+     */
+    public double calcularPrecio(final int edad, final boolean esVIP) {
+        double precioFinal = PRECIO_BASE;
+
+        if (edad < EDAD_NINO_MAX) {
+            precioFinal = PRECIO_NINO;
+        } else if (edad >= EDAD_ADULTO_MAYOR_MIN) {
+            precioFinal = PRECIO_ADULTO_MAYOR;
         }
 
-        // PMD detectará esto: Bloque if vacío
-        if(esVIP) {
-        } else {
-            p = p + 0;
+        if (esVIP) {
+            precioFinal = precioFinal * DESCUENTO_VIP;
         }
 
-        return p;
+        return precioFinal;
     }
 
-    // JaCoCo detectará esto: Método sin pruebas (cobertura baja)
+    /**
+     * Método de prueba para imprimir un mensaje de bienvenida.
+     */
     public void metodoNoProbado() {
         System.out.println("Bienvenido al Parque de Diversiones.");
     }
